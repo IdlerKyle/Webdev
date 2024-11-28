@@ -1,0 +1,33 @@
+@font-face {
+    font-family: 'GlacialIndifference Regular';
+    src: url('media/fonts/GlacialIndifference-Regular.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'GlacialIndifference Italic';
+    src: url('media/fonts/GlacialIndifference-Italic.otf');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'GlacialIndifference Bold';
+    src: url('media/fonts/GlacialIndifference-Regular.otf');
+    font-weight: bold;
+    font-style: normal;
+}
+body {
+    font-family: Arial, sans-serif;
+}
+.category-heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 20px 0;
+}
+.product-card img {
+    width: 100%;
+    height: auto;
+}
+.navbar {
+    margin-bottom: 20px;
+}

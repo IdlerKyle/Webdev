@@ -1,0 +1,103 @@
+@font-face {
+    font-family: glacial_indifference_regular;
+    src: url("../media/fonts/GlacialIndifference-Regular.otf");
+}
+
+@font-face {
+    font-family: glacial_indifference_bold;
+    src: url("../media/fonts/GlacialIndifference-Bold.otf");
+}
+
+@font-face {
+    font-family: glacial_indifference_italic;
+    src: url("../media/fonts/GlacialIndifference-Italic.otf");
+}
+
+* {
+    font-family: glacial_indifference_regular;
+}
+
+
+body {
+    background-image: url(../media/images/home_background.png);
+    background-color: #1a1a1a;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+a{
+    text-decoration: none;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+
+
+/* Input Containers */
+.col1_ic {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1rem;
+    background-color: #111;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-nav {
+    width: 2rem;
+    margin-right: 0.5rem;
+}
+
+.menu {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.menu>a{
+    color: white;
+}
+
+.user-icon {
+    font-size: 1.5rem;
+    background-color: #e60012;
+    color: #fff;
+    border-radius: 50%;
+    padding: 0.3rem;
+}
+
+#logout_button{
+    background-color: #e60012;
+    padding: 5px 20px;
+    color: white;
+    font-size: medium;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.hidden{
+    display: none!important;
+}
