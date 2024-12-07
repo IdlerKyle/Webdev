@@ -1,17 +1,15 @@
-async function getOrganizations(con){
+async function getOrganizations(con,res){
     
-    
-
     var sql = "SELECT * FROM organizations";
 
     try
     {
         const [results] = await con.promise().query(sql);
-        return { success:true, data:results};
+        res.send(results);
     }
     catch (error)
     {
-        return { success:false, error: error.message}
+        console.error(error);
     }
 
 }

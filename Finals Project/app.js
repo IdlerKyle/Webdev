@@ -8,7 +8,7 @@ const app = express();
 // ***********MYSQL FUNCTIONS************//
 
 const loginFunctions = require('./database_functions/login_functions.js');
-const organizationFunctions = require('.database_functions/organization_functions')
+const organizationFunctions = require('./database_functions/organization_functions')
 const productFunction = require('./database_functions/product_functions.js');
 
 // ***********END MYSQL FUNCTIONS************//
@@ -91,7 +91,11 @@ app.get("/Homepage",(req,res)=>{
     }
     else
     {
-        organizationFun
+        organizationFunctions.getOrganizations(con,res, qResponse =>{
+            res.render('/Homepage', {organizations: qResponse['result']});
+
+        })
+       
         res.sendFile(path.join(__dirname,"public","homepage.html"))
 
     }
@@ -99,15 +103,6 @@ app.get("/Homepage",(req,res)=>{
 })
 
 
-app.post("/", bodyParser.urlencoded({extended:false}),(req,res) =>{
-    var params = req.body;
-    organizationFunctions.getOrganization
-    if(username != null)
-    {
-        
-    }
-
-})
 
 // ***********END HOMEPAGE************//
 

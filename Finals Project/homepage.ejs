@@ -40,6 +40,8 @@
                     <label for="org">Choose an Organization:</label>
                     <select name="org" id="org" onchange="this.form.submit()">
                         <option value="">-- Select Organization --</option>
+                        <% organizations.forEach(function(organization)){ %>
+                            <option value="">organization.name </option>
                         <?php
                         if ($orgListResult->num_rows > 0) {
                             while ($row = $orgListResult->fetch_assoc()) {
