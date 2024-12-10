@@ -5,10 +5,13 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const app = express();
 
+// ***********RENDER************//
+app.set('view engine', 'ejs');
+
 // ***********MYSQL FUNCTIONS************//
 
 const loginFunctions = require('./database_functions/login_functions.js');
-const organizationFunctions = require('.database_functions/organization_functions')
+const organizationFunctions = require('./database_functions/organization_functions')
 const productFunction = require('./database_functions/product_functions.js');
 
 // ***********END MYSQL FUNCTIONS************//
@@ -82,21 +85,54 @@ app.post("/",bodyParser.urlencoded({extended:false}),(req,res)=>{
 // ***********END LOGIN************//
 
 // ***********HOMEPAGE************//
-app.get("/Homepage",(req,res)=>{
+app.get("/Homepage", (req, res) => {
+    if (!req.session.currentUserID) {
+        return res.send("<script>window.location.replace('/')</script>");
+    }
+
+    const selectedOrg = req.query.org || null; 
 
     
-    if(!req.session.currentUserID)
-    {
-        res.send("<script>window.location.replace('/')</script>")
-    }
-    else
-    {
-        organizationFun
-        res.sendFile(path.join(__dirname,"public","homepage.html"))
+    organizationFunctions.getOrganizations(con, (error, organizationResult) => {
+        if (error) {
+            console.error("Error fetching organizations:", error.message);
+            return res.status(500).send("Internal server error");
+        }
 
-    }
-    
-})
+        if (organizationResult.success) {
+           
+            let booths = [];
+            if (selectedOrg) {
+               
+                organizationFunctions.getBoothsForOrganization(con, selectedOrg, (error, boothResults) => {
+                    if (error) {
+                        console.error("Error fetching booths:", error.message);
+                        booths = []; 
+                    } else {
+                        booths = boothResults; 
+                    }
+
+                   
+                    res.render("homepage", {
+                        organizations: organizationResult.data,
+                        selectedOrg: selectedOrg,
+                        booths: booths
+                    });
+                });
+            } else {
+                
+                res.render("homepage", {
+                    organizations: organizationResult.data,
+                    selectedOrg: selectedOrg,
+                    booths: booths
+                });
+            }
+        } else {
+            res.status(500).send("Error fetching organizations");
+        }
+    });
+});
+
 
 
 app.post("/", bodyParser.urlencoded({extended:false}),(req,res) =>{
@@ -114,17 +150,40 @@ app.post("/", bodyParser.urlencoded({extended:false}),(req,res) =>{
 // ***********PRODUCTS PAGE************//
 
 
-app.get("/Products",(req,res)=>{
-    if(!req.session.currentUserID)
-    {
-        res.send("<script>window.location.replace('/')</script>")
+app.get('/product', (req, res) => {
+    const boothId = req.query.booth;
+
+    if (boothId) {
+        // Fetch booth from the database using the boothId
+        const sql = "SELECT * FROM booths WHERE id = ?";
+
+        con.query(sql, [boothId], (error, results) => {
+            if (error) {
+                console.error("Error fetching booth:", error.message);
+                return res.send('Error fetching booth');
+            }
+
+            const booth = results[0]; // Assuming booth exists and is returned as the first result
+
+            if (booth) {
+                // Use the getProductByBooth function to fetch products for this booth
+               organizationFunctions.getProductsForBooth(con, boothId, (err, products) => {
+                    if (err) {
+                        return res.send('Error fetching products');
+                    }
+
+                    // Render the product page and pass booth and products data
+                    res.render('product', { booth, products });
+                });
+            } else {
+                res.send('Booth not found');
+            }
+        });
+    } else {
+        res.send('No booth selected');
     }
-    else
-    {
-        res.sendFile(path.join(__dirname,"public","product.html"))
-    }
-    
-})
+});
+
 // ***********END PRODUCTS PAGE************//
 
 app.listen(5000,()=>{

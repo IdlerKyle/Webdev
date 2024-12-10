@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Stall not Found</title>
+    <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div class="container-fluid">
+        <header class="d-flex justify-content-between align-items-center fixed-top">
+            <div class="logo d-flex align-items-center">
+                <img class="logo-nav" src="media/images/login_logo.png" alt="Logo">
+                <span class="header-text">404</span>
+            </div>
+            <div class="menu d-flex gap-3 align-items-center">
+                <span>STALLS</span>
+                <span>ORDERS</span>
+                <div class="user-icon">&#128100;</div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <div class="org-header">
+                <% if (organizations.length> 0) { %>
+                    <h1>Welcome to the Organization Selection Page</h1>
+                    <% } else { %>
+                        <p>No organizations available. Please try again later.</p>
+                        <% } %>
+            </div>
+            <div class="org-selection">
+                <form method="GET" action="">
+                    <label for="org">Choose an Organization:</label>
+                    <select name="org" id="org" onchange="this.form.submit()">
+                        <option value="">-- Select Organization --</option>
+                        <% organizations.forEach(org=> { %>
+                            <option value="<%= org.id %>" <%=selectedOrg && selectedOrg===org.id.toString() ? 'selected'
+                                : '' %> >
+                                <%= org.org_name %>
+                            </option>
+                            <% }) %>
+                    </select>
+                </form>
+            </div>
+            <div class="booth-cards">
+                <% if (booths && booths.length> 0) { %>
+                    <div class="row">
+                        <% booths.forEach(booth=> { %>
+                            <div class="col-md-4 d-flex">
+                                <div class="card product-card d-flex flex-column">
+                                    <!-- Replace with booth image -->
+                                    <img src="<%= booth.image_url || 'https://via.placeholder.com/300' %>"
+                                        class="card-img-top" alt="<%= booth.booth_name %>">
+                                    <div class="card-body d-flex flex-column">
+                                        <h6 class="card-title">
+                                            <%= booth.booth_name %>
+                                        </h6>
+                                        <p class="card-text flex-grow-1">
+                                            <%= booth.booth_description %>
+                                        </p>
+                                       
+                                        <a href="/product?booth=<%= booth.id %>" class="btn mt-auto btn_color">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+                    <% } else if (selectedOrg && selectedOrg !=="" ) { %>
+                        <p>No booths available for this organization.</p>
+                        <% } %>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

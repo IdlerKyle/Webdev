@@ -1,37 +1,40 @@
-async function getOrganizations(con){
-    
-    
-
+function getOrganizations(con, callback) {
     var sql = "SELECT * FROM organizations";
 
-    try
-    {
-        const [results] = await con.promise().query(sql);
-        return { success:true, data:results};
-    }
-    catch (error)
-    {
-        return { success:false, error: error.message}
-    }
-
+    con.query(sql, (error, results) => {
+        if (error == null) {
+            callback(null, { success: true, data: results });
+        } else {
+            callback(error, { success: false, message: error.message });
+        }
+    });
 }
 
-
-
-async function getBooth(con, params){
-    var sql = "SELECT * FROM booths WHERE id = (SELECT booth_id FROM boothorg WHERE org_id = ?)";
-    var org_id = params['org_id'];
+function getBoothsForOrganization(con, orgId, callback) {
+    const sql = "SELECT * FROM booths WHERE id IN (SELECT booth_id FROM boothorg WHERE org_id = ?)";
     
-    try
-    {
-        const [results] = await con.promise().query(sql, [org_id]);
-        return { success:true, data:results};
-    }
-    catch (error)
-    {
-        return { success:false, error: error.message}
-    }
-    }
+    con.query(sql, [orgId], (error, results) => {
+        if (error) {
+            console.error("Error fetching booths:", error.message);
+            callback(error, null); 
+        } else {
+            callback(null, results); 
+        }
+    });
+}
 
-    module.exports = {getOrganizations,getBooth};
+function getProductsForBooth(con, boothId, callback) {
+    const sql = "SELECT * FROM products WHERE booth_id = ?";
     
+    con.query(sql, [boothId], (error, results) => {
+        if (error) {
+            console.error("Error fetching products:", error.message);
+            callback(error, null); 
+        } else {
+            callback(null, results); 
+        }
+    });
+}
+
+module.exports = { getOrganizations, getBoothsForOrganization , getProductsForBooth};
+

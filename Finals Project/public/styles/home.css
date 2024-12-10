@@ -9,11 +9,6 @@ body {
   font-size: 16px;
 }
 
-.container {
-  width: 100%;
-  margin: 0 auto;
-}
-
 header {
   display: flex;
   justify-content: space-between;
@@ -25,7 +20,7 @@ header {
   font-weight: bold;
   position: fixed;
   top: 0;
-  width: 99%;
+  width: 100%;
   z-index: 10;
 }
 
@@ -55,7 +50,7 @@ header {
 
 .org-header {
   text-align: center;
-  padding: 6rem 0 1rem; 
+  padding: 6rem 0 1rem;
   font-size: 1.8rem;
   color: #fff;
 }
@@ -141,7 +136,6 @@ header {
   background-color: #ffcc00;
   color: #000;
 }
-
-header{
-  width: 99%;
+.margin_below{
+  margin-bottom: 50px;
 }
