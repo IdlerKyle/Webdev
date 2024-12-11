@@ -93,7 +93,6 @@ app.get("/Homepage", (req, res) => {
     const selectedOrg = req.query.org || null; 
 
     
-<<<<<<< HEAD
     organizationFunctions.getOrganizations(con, (error, organizationResult) => {
         if (error) {
             console.error("Error fetching organizations:", error.message);
@@ -133,23 +132,18 @@ app.get("/Homepage", (req, res) => {
         }
     });
 });
-=======
-    if(!req.session.currentUserID)
+
+
+
+app.post("/", bodyParser.urlencoded({extended:false}),(req,res) =>{
+    var params = req.body;
+    organizationFunctions.getOrganization
+    if(username != null)
     {
-        res.send("<script>window.location.replace('/')</script>")
+        
     }
-    else
-    {
-        organizationFunctions.getOrganizations(con,res, qResponse =>{
-            res.render('/Homepage', {organizations: qResponse['result']});
 
-        })
-       
-        res.sendFile(path.join(__dirname,"public","homepage.html"))
->>>>>>> 3f0151cb382df142ffc456017e2da5ebb753acc5
-
-
-
+})
 
 // ***********END HOMEPAGE************//
 
