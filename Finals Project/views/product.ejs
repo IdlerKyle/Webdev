@@ -15,7 +15,7 @@
 <body class="pt-5">
 
     <!-- Navbar -->
-    <header class="d-flex justify-content-between align-items-center fixed-top margin_below ">
+    <header class="d-flex justify-content-between align-items-center fixed-top  ">
         <div class="logo d-flex align-items-center">
             <img class="logo-nav" src="media/images/login_logo.png" alt="Logo">
             <span class="header-text">404</span>
@@ -40,6 +40,8 @@
                         <% products.forEach(product=> { %>
                             <div class="col-md-4 d-flex">
                                 <div class="card product-card d-flex flex-column">
+
+                                     <!-- no Image yet in database -->
                                     <img src="<%= product.image || 'https://via.placeholder.com/300'%>"
                                         class="card-img-top" alt="<%= product.product_name %>">
                                     <div class="card-body">
